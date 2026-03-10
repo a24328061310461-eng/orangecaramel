@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://fonts.cdnfonts.com/css/lifestyle-marker-m54" rel="stylesheet">
+<meta charset="UTF-8">
+<link href="https://fonts.cdnfonts.com/css/lifestyle-marker-m54" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/kun" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/sa-inkspot" rel="stylesheet">
 
@@ -12,32 +10,9 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-    <title>Primera pagina</title>
-
-    <style>
-         :root{
-    --color-de-fondo: #bacba9;   /* azul gris pastel */
-    --color-de-lertras: #e1f4cb; /* azul oscuro suave */
-    --color-barra: #717568;      /* azul pastel medio */
-    --color-boton: #f1bf98;     /* rojo coral pastel */
-    --color-extra: #3f4739;     /* rojo suave */
-}
-
-
-        body{
-            background-color: #8fc093 ;
-        }
-        h1{
-            font-family: 'Bergell LET', sans-serif;
-            color: var();
-            text-align: center;
-        }
-    </style>
+<title>Mostrar tabla</title>
 </head>
-
 <body>
-
 <div>
     <nav class="navbar navbar-light" style="background-color:var(--color-barra);">
         <div class="container">
@@ -85,15 +60,62 @@
     </nav>
 </div>
 
-<div class="jumbotron" style="background-color: var(--color-de-fondo)">
-    <h1 class="display-4">Bienvenido</h1>
-    <p class="lead">Esta será mi página.</p>
-    <hr class="my-4">
-    <p>Bienvenido a mi página</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Botón</a>
-    </p>
-</div>
+
+<h1>Aqui voy a mostrar mi tabla</h1>
+<h3>Valeria Castillo</h3>
+
+<?php
+$username = "root";
+$password = "";
+$server = "localhost";
+$database = "elotes";
+
+$conexion = new mysqli($server, $username, $password, $database);
+
+if ($conexion->connect_error) {
+    die("Conexion fallida: " . $conexion->connect_error);
+}
+
+$sql = "SELECT * FROM personajes";
+$resultado = $conexion->query($sql);
+
+if ($resultado->num_rows > 0) {
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Personaje</th>
+            <th>Altura</th>
+            <th>Peso</th>
+            <th>Poderes</th>
+            <th>Sexo</th>
+            <th>Debilidad</th>
+            <th>Creacion</th>
+            <th>Biografia</th>
+          </tr>";
+
+    while ($row = $resultado->fetch_assoc()) {
+        echo "<tr>
+                <td>".$row["id"]."</td>
+                <td>".$row["nombrereal"]."</td>
+                <td>".$row["personaje"]."</td>
+                <td>".$row["altura"]."</td>
+                <td>".$row["peso"]."</td>
+                <td>".$row["poderes"]."</td>
+                <td>".$row["sexo"]."</td>
+                <td>".$row["debilidad"]."</td>
+                <td>".$row["creation"]."</td>
+                <td>".$row["biografia"]."</td>
+              </tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "No se encontraron registros en la base de datos";
+}
+
+$conexion->close();
+?>
 
 </body>
 </html>
